@@ -22,6 +22,13 @@ const Layout = () => {
         }
     });
 
+    // ✅ Hide sidebar when route changes on mobile
+    useEffect(() => {
+        if (!isDesktopDevice) {
+            setCollapsed(true);
+        }
+    }, [location]);
+
     return (
         <div className="min-h-screen bg-slate-100 transition-colors dark:bg-slate-950">
             <div
@@ -30,11 +37,10 @@ const Layout = () => {
                     !collapsed && "max-md:pointer-events-auto max-md:z-50 max-md:opacity-30",
                 )}
             />
-            <Sidebar ref={sidebarRef} collapsed={collapsed} />
+            <Sidebar ref={sidebarRef} collapsed={collapsed} onClose={() => setCollapsed(true)} />
             <div className={cn("transition-[margin] duration-300", collapsed ? "md:ml-[70px]" : "md:ml-[240px]")}>
                 <Header collapsed={collapsed} setCollapsed={setCollapsed} />
                 <div className="h-[calc(100vh-60px)] overflow-y-auto overflow-x-hidden p-6">
-                    {/* ✅ Ensure Outlet updates properly */}
                     <Outlet />
                 </div>
             </div>

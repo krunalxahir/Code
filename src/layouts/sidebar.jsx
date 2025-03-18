@@ -1,19 +1,17 @@
 import { forwardRef } from "react";
 import { NavLink } from "react-router-dom";
-import { FaChartBar, FaUsers, FaBox, FaCog } from "react-icons/fa"; // ✅ Import Icons
-
+import { FaChartBar, FaUsers, FaBox, FaCog } from "react-icons/fa"; 
 import logoLight from "@/assets/logo-light.svg";
 import logoDark from "@/assets/logo-dark.svg";
 import { cn } from "@/utils/cn";
 import PropTypes from "prop-types";
 
-export const Sidebar = forwardRef(({ collapsed }, ref) => {
-    // ✅ Sidebar Links (Defined Directly Inside)
+export const Sidebar = forwardRef(({ collapsed, onClose }, ref) => {
     const sidebarLinks = [
         {
             title: "Dashboard",
             links: [
-                { label: "Dashboard", path: "/dashboard", icon:FaChartBar},
+                { label: "Dashboard", path: "/dashboard", icon: FaChartBar },
                 { label: "Analytics", path: "analytics", icon: FaChartBar },
                 { label: "Reports", path: "reports", icon: FaChartBar },
             ],
@@ -49,25 +47,20 @@ export const Sidebar = forwardRef(({ collapsed }, ref) => {
                 collapsed ? "max-md:-left-full" : "max-md:left-0",
             )}
         >
-            {/* Logo Section */}
             <div className="flex gap-x-3 p-3">
                 <img src={logoLight} alt="Logoipsum" className="dark:hidden" />
                 <img src={logoDark} alt="Logoipsum" className="hidden dark:block" />
                 {!collapsed && <p className="text-lg font-medium text-slate-900 dark:text-slate-50">Logoipsum</p>}
             </div>
 
-            {/* Sidebar Links */}
             <div className="flex w-full flex-col gap-y-4 overflow-y-auto overflow-x-hidden p-3">
                 {sidebarLinks.map((group) => (
-                    <nav
-                        key={group.title}
-                        className={cn("sidebar-group", collapsed && "md:items-center")}
-                    >
+                    <nav key={group.title} className={cn("sidebar-group", collapsed && "md:items-center")}>
                         <p className={cn("sidebar-group-title", collapsed && "md:w-[45px]")}>{group.title}</p>
                         {group.links.map((link) => (
                             <NavLink
                                 key={link.label}
-                                to={`/dashboard/${link.path}`} // ✅ Fixed Routing
+                                to={`/dashboard/${link.path}`}
                                 className={({ isActive }) =>
                                     cn(
                                         "sidebar-item flex items-center gap-x-2 px-3 py-2 rounded-md transition-colors",
@@ -77,6 +70,7 @@ export const Sidebar = forwardRef(({ collapsed }, ref) => {
                                         collapsed && "md:w-[45px]"
                                     )
                                 }
+                                onClick={() => onClose()} // ✅ Close sidebar on mobile click
                             >
                                 <link.icon size={22} className="flex-shrink-0" />
                                 {!collapsed && <p className="whitespace-nowrap">{link.label}</p>}
@@ -93,4 +87,5 @@ Sidebar.displayName = "Sidebar";
 
 Sidebar.propTypes = {
     collapsed: PropTypes.bool,
+    onClose: PropTypes.func, // ✅ Added function prop
 };
