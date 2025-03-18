@@ -70,7 +70,11 @@ export const Sidebar = forwardRef(({ collapsed, onClose }, ref) => {
                                         collapsed && "md:w-[45px]"
                                     )
                                 }
-                                onClick={() => onClose()} // ✅ Close sidebar on mobile click
+                                onClick={() => {
+                                    if (!isDesktopDevice) {
+                                        onClose(); // ✅ Close only on mobile
+                                    }
+                                }}
                             >
                                 <link.icon size={22} className="flex-shrink-0" />
                                 {!collapsed && <p className="whitespace-nowrap">{link.label}</p>}

@@ -25,9 +25,9 @@ const Layout = () => {
     // ✅ Hide sidebar when route changes on mobile
     useEffect(() => {
         if (!isDesktopDevice) {
-            setCollapsed(true);
+            setCollapsed(true); // ✅ Only collapse on small screens
         }
-    }, [location]);
+    }, [location, isDesktopDevice]);
 
     return (
         <div className="min-h-screen bg-slate-100 transition-colors dark:bg-slate-950">
