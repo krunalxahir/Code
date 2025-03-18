@@ -13,7 +13,7 @@ export const Sidebar = forwardRef(({ collapsed }, ref) => {
         {
             title: "Dashboard",
             links: [
-                { label: "Dashboard", path: "dashboard", icon:FaChartBar},
+                { label: "Dashboard", path: "/dashboard", icon:FaChartBar},
                 { label: "Analytics", path: "analytics", icon: FaChartBar },
                 { label: "Reports", path: "reports", icon: FaChartBar },
             ],

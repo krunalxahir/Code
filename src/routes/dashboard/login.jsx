@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 
 const Login = ({ onLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
-  const navigate = useNavigate(); // Hook for redirection
+  const navigate = useNavigate();
 
   useEffect(() => {
     const savedUsername = localStorage.getItem("username");
@@ -32,16 +32,16 @@ const Login = ({ onLogin }) => {
       localStorage.removeItem("rememberMe");
     }
 
-    onLogin(); // Update authentication state
-    navigate("/dashboard"); // Redirect to Dashboard
+    onLogin();
+    navigate("/dashboard");
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-black px-4">
-      <div className="bg-gray-900 p-6 md:p-8 rounded-lg shadow-lg w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-md">
+    <div className="flex items-center justify-center min-h-screen bg-gray-950 text-white px-4">
+      <div className="bg-gray-900 p-8 rounded-2xl shadow-xl w-full max-w-sm">
         {/* Logo */}
         <div className="flex items-center justify-center mb-6">
-          <span className="text-red-500 text-3xl font-bold flex items-center">
+          <span className="text-blue-500 text-3xl font-bold flex items-center">
             <svg
               className="w-6 h-6 mr-2"
               fill="currentColor"
@@ -55,9 +55,7 @@ const Login = ({ onLogin }) => {
         </div>
 
         {/* Heading */}
-        <h2 className="text-white text-xl font-semibold text-center mb-6">
-          Sign In
-        </h2>
+        <h2 className="text-xl font-semibold text-center mb-6">Sign In</h2>
 
         {/* Form */}
         <form onSubmit={handleSubmit}>
@@ -65,8 +63,8 @@ const Login = ({ onLogin }) => {
             <label className="block text-gray-400 text-sm mb-1">Username</label>
             <input
               type="text"
-              placeholder="Username, Phone, Email"
-              className="w-full bg-gray-800 text-white px-4 py-2 rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition"
+              placeholder="Enter username"
+              className="w-full bg-gray-800 text-white px-4 py-2 rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
@@ -76,8 +74,8 @@ const Login = ({ onLogin }) => {
             <label className="block text-gray-400 text-sm mb-1">Password</label>
             <input
               type="password"
-              placeholder="Password"
-              className="w-full bg-gray-800 text-white px-4 py-2 rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition"
+              placeholder="Enter password"
+              className="w-full bg-gray-800 text-white px-4 py-2 rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -95,18 +93,16 @@ const Login = ({ onLogin }) => {
             </label>
           </div>
 
-          {/* Sign In Button */}
           <button
             type="submit"
-            className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-2 rounded-md transition duration-200"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition duration-200"
           >
-            Sign in
+            Sign In
           </button>
 
-          {/* Register Link */}
           <p
-            className="text-center text-red-500 text-sm mt-3 cursor-pointer hover:underline"
-            onClick={() => navigate("/signup")} // Redirect to Signup Page
+            className="text-center text-blue-400 text-sm mt-3 cursor-pointer hover:underline"
+            onClick={() => navigate("/signup")}
           >
             Create Your Account
           </p>
