@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Navigate, Outlet } from "react-router-dom";
 import { useState, useEffect, createContext, useContext } from "react";
 
 import { ThemeProvider } from "@/contexts/theme-context";
@@ -36,7 +36,9 @@ function App() {
 
     if (loading) return <h1>Loading...</h1>;
 
-    // ✅ Fix: Nested dashboard correctly
+    // ✅ Redirect `/dashboard` to `/dashboard/dashboard`
+    const DashboardRedirect = () => <Navigate to="/dashboard/dashboard" replace />;
+
     const router = createBrowserRouter([
         {
             path: "/",
@@ -50,7 +52,8 @@ function App() {
             path: "/dashboard",
             element: isAuthenticated ? <Layout /> : <Navigate to="/" replace />,
             children: [
-                { path: "dashboard", element: <DashboardPage /> }, // ✅ Default dashboard page
+                { index: true, element: <DashboardRedirect /> }, // ✅ Redirect to the main dashboard
+                { path: "dashboard", element: <DashboardPage /> },
                 { path: "analytics", element: <Analytics /> },
                 { path: "reports", element: <h1 className="title">Reports</h1> },
                 { path: "customers", element: <h1 className="title">Customers</h1> },
