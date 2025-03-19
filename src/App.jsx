@@ -34,10 +34,10 @@ function App() {
         localStorage.removeItem("isAuthenticated");
     };
 
-    if (loading) return <h1>Loading...</h1>;
+    if (loading) return <div className="h-screen w-screen bg-slate-900 dark:bg-slate-950" />;
 
     // ✅ Redirect `/dashboard` to `/dashboard/dashboard`
-    const DashboardRedirect = () => <Navigate to="/dashboard/dashboard" replace />;
+    const DashboardRedirect = () => <DashboardPage />;
 
     const router = createBrowserRouter([
         {
@@ -70,7 +70,7 @@ function App() {
 
     return (
         <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
-            <ThemeProvider storageKey="theme">
+            <ThemeProvider storageKey="theme" defaultTheme="dark">
                 <RouterProvider router={router} />
             </ThemeProvider>
         </AuthContext.Provider>

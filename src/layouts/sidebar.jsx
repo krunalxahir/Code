@@ -1,8 +1,6 @@
 import { forwardRef } from "react";
 import { NavLink } from "react-router-dom";
-import { FaChartBar, FaUsers, FaBox, FaCog } from "react-icons/fa"; 
-import logoLight from "@/assets/logo-light.svg";
-import logoDark from "@/assets/logo-dark.svg";
+import { FaChartBar, FaUsers, FaBox, FaCog } from "react-icons/fa";
 import { cn } from "@/utils/cn";
 import PropTypes from "prop-types";
 
@@ -42,21 +40,32 @@ export const Sidebar = forwardRef(({ collapsed, onClose }, ref) => {
         <aside
             ref={ref}
             className={cn(
-                "fixed z-[100] flex h-full w-[240px] flex-col overflow-x-hidden border-r border-slate-300 bg-white transition-all dark:border-slate-700 dark:bg-slate-900",
-                collapsed ? "md:w-[70px] md:items-center" : "md:w-[240px]",
-                collapsed ? "max-md:-left-full" : "max-md:left-0",
+                "fixed z-[100] flex h-full flex-col overflow-hidden border-r border-slate-300 bg-white transition-all duration-300 dark:border-slate-700 dark:bg-slate-900",
+                collapsed ? "w-0 md:w-[0px] -translate-x-full" : "w-[240px] translate-x-0"
             )}
         >
-            <div className="flex gap-x-3 p-3">
-                <img src={logoLight} alt="Logoipsum" className="dark:hidden" />
-                <img src={logoDark} alt="Logoipsum" className="hidden dark:block" />
-                {!collapsed && <p className="text-lg font-medium text-slate-900 dark:text-slate-50">Logoipsum</p>}
+            {/* ✅ Sidebar Header (Logo) - LEFT ALIGNED */}
+            <div className="flex items-center justify-start pl-4 py-4">
+                <svg
+                    className="w-8 h-8 text-blue-500"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path d="M10 2a4 4 0 00-4 4v1H5a3 3 0 00-3 3v5a3 3 0 003 3h10a3 3 0 003-3v-5a3 3 0 00-3-3h-1V6a4 4 0 00-4-4zM8 6a2 2 0 014 0v1H8V6z" />
+                </svg>
+                {!collapsed && (
+                    <span className="text-xl font-semibold text-slate-900 dark:text-slate-50 ml-2">
+                        UCL CSC
+                    </span>
+                )}
             </div>
 
-            <div className="flex w-full flex-col gap-y-4 overflow-y-auto overflow-x-hidden p-3">
+            {/* Sidebar Links */}
+            <div className="flex w-full flex-col gap-y-4 overflow-y-auto p-3">
                 {sidebarLinks.map((group) => (
-                    <nav key={group.title} className={cn("sidebar-group", collapsed && "md:items-center")}>
-                        <p className={cn("sidebar-group-title", collapsed && "md:w-[45px]")}>{group.title}</p>
+                    <nav key={group.title} className="sidebar-group">
+                        {!collapsed && <p className="sidebar-group-title">{group.title}</p>}
                         {group.links.map((link) => (
                             <NavLink
                                 key={link.label}
@@ -66,11 +75,14 @@ export const Sidebar = forwardRef(({ collapsed, onClose }, ref) => {
                                         "sidebar-item flex items-center gap-x-2 px-3 py-2 rounded-md transition-colors",
                                         isActive
                                             ? "bg-blue-500 text-white"
-                                            : "text-slate-700 hover:bg-gray-200 dark:text-slate-300 dark:hover:bg-gray-700",
-                                        collapsed && "md:w-[45px]"
+                                            : "text-slate-700 hover:bg-gray-200 dark:text-slate-300 dark:hover:bg-gray-700"
                                     )
                                 }
-                                onClick={() => onClose()} // ✅ Close sidebar on mobile click
+                                onClick={() => {
+                                    if (!window.matchMedia("(min-width: 768px)").matches) {
+                                        onClose();
+                                    }
+                                }}
                             >
                                 <link.icon size={22} className="flex-shrink-0" />
                                 {!collapsed && <p className="whitespace-nowrap">{link.label}</p>}
@@ -87,5 +99,5 @@ Sidebar.displayName = "Sidebar";
 
 Sidebar.propTypes = {
     collapsed: PropTypes.bool,
-    onClose: PropTypes.func, // ✅ Added function prop
+    onClose: PropTypes.func,
 };

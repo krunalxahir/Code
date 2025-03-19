@@ -10,7 +10,7 @@ const Layout = () => {
     const isDesktopDevice = useMediaQuery("(min-width: 768px)");
     const [collapsed, setCollapsed] = useState(!isDesktopDevice);
     const sidebarRef = useRef(null);
-    const location = useLocation(); // ✅ Track current location
+    const location = useLocation();
 
     useEffect(() => {
         setCollapsed(!isDesktopDevice);
@@ -27,7 +27,7 @@ const Layout = () => {
         if (!isDesktopDevice) {
             setCollapsed(true);
         }
-    }, [location]);
+    }, [location, isDesktopDevice]);
 
     return (
         <div className="min-h-screen bg-slate-100 transition-colors dark:bg-slate-950">
@@ -37,8 +37,13 @@ const Layout = () => {
                     !collapsed && "max-md:pointer-events-auto max-md:z-50 max-md:opacity-30",
                 )}
             />
-            <Sidebar ref={sidebarRef} collapsed={collapsed} onClose={() => setCollapsed(true)} />
-            <div className={cn("transition-[margin] duration-300", collapsed ? "md:ml-[70px]" : "md:ml-[240px]")}>
+            {/* Sidebar ko `w-0` aur transition de diya */}
+            <div ref={sidebarRef} className={cn("fixed h-full transition-all duration-300", collapsed ? "w-0" : "w-[240px]")}>
+                <Sidebar collapsed={collapsed} onClose={() => setCollapsed(true)} />
+            </div>
+
+            {/* Main Content - Sidebar ka gap hata diya */}
+            <div className={cn("transition-all duration-300", collapsed ? "ml-0" : "ml-[240px]")}>
                 <Header collapsed={collapsed} setCollapsed={setCollapsed} />
                 <div className="h-[calc(100vh-60px)] overflow-y-auto overflow-x-hidden p-6">
                     <Outlet />
